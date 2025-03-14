@@ -27,3 +27,5 @@ img/
 - 25/01/08 MSA
 - 25/01/09 MonoRepo
 - 25/01/16 Process & Thread
+- 25/01/23 React Memoization
+- 25/02/04 웹브라우저 VMS
