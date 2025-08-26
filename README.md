@@ -29,3 +29,4 @@ img/
 - 25/01/16 Process & Thread
 - 25/01/23 React Memoization
 - 25/02/04 웹브라우저 VMS
+- 25/08/26 브라우저&React 렌더링 방식
