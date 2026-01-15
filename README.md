@@ -32,3 +32,4 @@ img/
 - 25/08/26 브라우저&React 렌더링 방식
 - 25/08/29 Micro Frontend
 - 25/10/14 Javascript var let 차이
+- 26/01/15 React Suspense 완벽가이드
