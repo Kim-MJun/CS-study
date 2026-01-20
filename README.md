@@ -33,3 +33,4 @@ img/
 - 25/08/29 Micro Frontend
 - 25/10/14 Javascript var let 차이
 - 26/01/15 React Suspense 완벽가이드
+- 26/01/20 React Server Component
