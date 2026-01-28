@@ -13,8 +13,11 @@
   - DOM, CSSOM 을 이용해 Render Tree를 생성
 - 3단계. Layout
   - Render Tree를 기반으로 실제 웹 페이지에 요소들의 배치를 결정하는 작업
-- 4단계 - Painting
+- 4단계. Painting
   - 실제로 요소들을 화면에 그려내는 과정
+- 5단계. Composite
+  - 레이어를 합성하여 최종 화면을 만드는 과정
+  - `transform`, `opacity` 애니메이션이 빠른 이유: Reflow/Repaint 없이 이 단계만 실행됨
 
 #### 업데이트 발생 과정
 
@@ -29,7 +32,7 @@ javascript가 DOM을 수정하게 되면서 업데이트가 발생 함
 
 ## React 렌더링 프로세스
 
-React는 2단계를 거쳐 화면에 UI를 렌저링 함
+React는 2단계를 거쳐 화면에 UI를 렌더링 함
 
 1. Render Phase
 
@@ -46,10 +49,19 @@ React는 2단계를 거쳐 화면에 UI를 렌저링 함
 #### 업데이트 발생 시
 
 1. Render Phase를 처음부터 다시 실행 -> 새로운 Virtual DOM 생성
-2. Next Virtual DOM <-> Prev Virtual DOM의 차이점 비교
-3. 계산된 차이점을 Actual DOM에 한번에 업데이트
+2. Next Virtual DOM <-> Prev Virtual DOM의 차이점 비교 (**Reconciliation**)
+3. 계산된 차이점을 Actual DOM에 한번에 업데이트 (**Batching**)
 
-위 방식대로 진행하는 이유는 `DOM 수정을 최소화 하기 위해서` 가상 DOM을 적극 사용중
+> **Virtual DOM의 핵심 가치**
+>
+> "DOM 수정 최소화"보다는 **선언적 프로그래밍 모델**을 가능하게 하면서 충분히 빠른 성능을 유지하는 것이 핵심.
+> 개발자는 상태만 선언하면, React가 UI 동기화를 알아서 처리함.
+
+#### 핵심 개념
+
+- **Reconciliation**: O(n) Diffing 알고리즘으로 두 Virtual DOM을 비교. `key` prop이 중요한 이유.
+- **Fiber Architecture** (React 16+): Render Phase가 중단/재개 가능해져 긴급한 업데이트 우선 처리 가능.
+- **Automatic Batching** (React 18+): setTimeout, Promise 등 어디서든 자동으로 업데이트를 모아서 처리.
 
 ---
 
@@ -61,5 +73,6 @@ React는 2단계를 거쳐 화면에 UI를 렌저링 함
   - 서비스 규모가 커질수록 쉽지 않음
 - React는 자체적인 렌더링 프로세스를 사용하므로 이런 걱정에서 자유로움
   - Render Phase와 Commit Phase로 나뉨
-  - Render Phase에 Virtual DOM을 생성하여 동시에 발생하는 업데이트를 모음
-  - Commit Phase에 Virtual DOM에 반영된 모든 업데이트를 Actual DOM에 한번만 반영함
+  - Render Phase에 Virtual DOM을 생성하고 Reconciliation으로 변경점 파악
+  - Commit Phase에 Batching된 모든 업데이트를 Actual DOM에 한번만 반영
+  - **핵심**: Virtual DOM 덕분에 "상태만 선언하면 UI가 동기화"되는 개발 경험 제공
