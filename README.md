@@ -36,3 +36,4 @@ img/
 - 26/01/20 React Server Component
 - 26/01/22 HTTPS 정확히 알기
 - 26/01/23 VITE 완벽가이드
+- 26/01/30 shadcn 완벽가이드
